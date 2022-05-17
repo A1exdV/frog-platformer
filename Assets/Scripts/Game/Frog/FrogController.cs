@@ -16,10 +16,16 @@ public class FrogController : MonoBehaviour
     [SerializeField] private float maxJumpForce;
     [SerializeField] private float timeToForceJump;
 
-    [SerializeField] private LayerMask _groundLayer;
+    [SerializeField] private LayerMask groundLayer;
+
+    [SerializeField] private Transform groundCheck1;
+    [SerializeField] private Transform groundCheck2;
 
     [SerializeField] private GameObject jumpScale;
     [SerializeField] private Image jumpScaleFill;
+
+    [SerializeField] private AudioClip jump;
+    [SerializeField] private AudioSource _audioSource;
 
     private Rigidbody2D _frogRb2D;
     private Transform _transform;
@@ -27,7 +33,6 @@ public class FrogController : MonoBehaviour
     private Camera _camera;
 
     private bool _isFacingRight;
-    private bool _isInputDisable;
 
     private string _currentState;
 
@@ -45,8 +50,12 @@ public class FrogController : MonoBehaviour
 
     private void Update()
     {
-        if(_currentState is "Attack" or "Damage")
+        if (_currentState is "Attack" or "Damage")
+        {
+            _jumpInputTimer = 0;
+            jumpScale.SetActive(false);
             return;
+        }
         GetInput();
         InAirCheck();
     }
@@ -54,8 +63,6 @@ public class FrogController : MonoBehaviour
     private void GetInput()
     {
         JumpCheck();
-        if (_isInputDisable)
-            return;
         HorizontalCheck();
         AttackCheck();
     }
@@ -90,9 +97,6 @@ public class FrogController : MonoBehaviour
                 break;
             case "Damage":
                 frogAnim.Play("Damage");
-                break;
-            case "Dead":
-                frogAnim.Play("Dead");
                 break;
         }
     }
@@ -136,13 +140,14 @@ public class FrogController : MonoBehaviour
 
     private void JumpCheck()
     {
+
+
+
+
         if (!jumpScale.activeInHierarchy && _jumpInputTimer > timeToForceJump && _currentState !="Attack")
         {
             jumpScale.transform.position = _camera.WorldToScreenPoint(transform.position) - new Vector3(0, 20, 0);
             jumpScale.SetActive(true);
-            _frogRb2D.velocity = Vector2.zero;
-            _isInputDisable = true;
-            ChangeState("Idle");
         }
 
 
@@ -151,6 +156,11 @@ public class FrogController : MonoBehaviour
             _jumpInputTimer += Time.deltaTime;
         }
 
+        if (Input.GetKey("space") && !IsGrounded())
+        {
+            _jumpInputTimer = 0;
+            jumpScale.SetActive(false);
+        }
 
         if (Input.GetKeyUp("space") && IsGrounded())
         {
@@ -164,7 +174,8 @@ public class FrogController : MonoBehaviour
                 _frogRb2D.velocity = new Vector2(_frogRb2D.velocity.x, minJumpForce);
             }
 
-            _isInputDisable = false;
+            _audioSource.clip = jump;
+            _audioSource.Play();
             jumpScale.SetActive(false);
             _jumpInputTimer = 0;
         }
@@ -172,7 +183,6 @@ public class FrogController : MonoBehaviour
         if (Input.GetKeyUp("space") && !IsGrounded())
         {
             _jumpInputTimer = 0;
-            _isInputDisable = false;
             jumpScale.SetActive(false);
         }
     }
@@ -189,7 +199,7 @@ public class FrogController : MonoBehaviour
     public void OnAttackEnd()
     {
         _currentState = "Idle";
-        ChangeState("Idle");
+        frogAnim.Play("Idle");
     }
 
     public void GetDamage(Vector2 contact)
@@ -205,12 +215,25 @@ public class FrogController : MonoBehaviour
         _currentState = "Run";
     }
 
-    private bool IsGrounded() => Physics2D.OverlapCircle(transform.position, 0.32f, _groundLayer);
+    private bool IsGrounded()
+    {
+        if (Physics2D.OverlapCircle(groundCheck1.position, 0.10f, groundLayer) ||
+            Physics2D.OverlapCircle(groundCheck2.position, 0.10f, groundLayer))
+            return true;
+        return false;
+    }
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(transform.position, 0.32f);
+        if(IsGrounded())
+            Gizmos.color = Color.green;
+        else
+        {
+            Gizmos.color = Color.red;
+        }
+
+        Gizmos.DrawSphere(groundCheck1.position, 0.10f);
+        Gizmos.DrawSphere(groundCheck2.position, 0.10f);
     }
 
     private void Flip()

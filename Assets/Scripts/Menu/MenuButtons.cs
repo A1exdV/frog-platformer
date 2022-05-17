@@ -8,6 +8,7 @@ public class MenuButtons : MonoBehaviour
 {
     [SerializeField] private GameObject aboutGame;
     [SerializeField] private GameObject mainMenu;
+    [SerializeField] private GameObject CreditsPanel;
 
     [SerializeField] private GameObject slide1;
     [SerializeField] private GameObject slide2;
@@ -51,5 +52,10 @@ public class MenuButtons : MonoBehaviour
             mainMenu.SetActive(true);
 
         }
+    }
+
+    public void CreditsState()
+    {
+        CreditsPanel.SetActive(!CreditsPanel.activeInHierarchy);
     }
 }

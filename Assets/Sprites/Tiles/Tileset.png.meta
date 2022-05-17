@@ -359,10 +359,10 @@ TextureImporter:
       outline: []
       physicsShape:
       - - {x: 0, y: 7}
-        - {x: -16, y: 15}
+        - {x: -16, y: 16}
         - {x: -16, y: -16}
         - {x: 16, y: -16}
-        - {x: 16, y: 15}
+        - {x: 16, y: 16}
       tessellationDetail: 0
       bones: []
       spriteID: bf1ecc2eb2749304985bf9599621560b
@@ -574,7 +574,8 @@ TextureImporter:
       outline: []
       physicsShape:
       - - {x: 6, y: 7}
-        - {x: -16, y: 15}
+        - {x: -14, y: 15}
+        - {x: -16, y: 16}
         - {x: -16, y: -16}
         - {x: 16, y: -16}
         - {x: 16, y: 7}
@@ -1237,7 +1238,7 @@ TextureImporter:
         - {x: -16, y: 7}
         - {x: -16, y: -16}
         - {x: 16, y: -16}
-        - {x: 16, y: 15}
+        - {x: 16, y: 16}
       tessellationDetail: 0
       bones: []
       spriteID: 604acc11de2ee4042abad4b9fa014158
@@ -1456,12 +1457,12 @@ TextureImporter:
       outline: []
       physicsShape:
       - - {x: -9, y: 16}
-        - {x: -11, y: 7}
+        - {x: -16, y: 7}
         - {x: -16, y: 7}
         - {x: -16, y: -16}
         - {x: 16, y: -16}
         - {x: 16, y: 7}
-        - {x: 11, y: 7}
+        - {x: 16, y: 7}
         - {x: 9, y: 16}
       tessellationDetail: 0
       bones: []
@@ -1509,13 +1510,13 @@ TextureImporter:
       Tileset_32: -1802458060
       Tileset_22: -1469215560
       Tileset_9: -42669632
-      Tileset_34: 1005426344
-      Tileset_39: 1874282065
-      Tileset_41: -1531527344
       Tileset_0: -1757625179
-      Tileset_7: -1100456478
-      Tileset_12: 1401123597
+      Tileset_34: 1005426344
+      Tileset_41: -1531527344
       Tileset_42: 706783877
+      Tileset_39: 1874282065
+      Tileset_12: 1401123597
+      Tileset_7: -1100456478
       Tileset_4: -529878635
       Tileset_57: 362773053
       Tileset_37: -747908929
